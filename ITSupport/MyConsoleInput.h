@@ -5,7 +5,7 @@
 #define MY_CONSOLE_INPUT_H
 
 #include <limits> 
-#include <cfloat>  // for limits of a double DBL_MIN and DBL_MAXt
+#include <cfloat>  // for limits of a double DBL_MIN and DBL_MAX
 
 
 class ConsoleInput 

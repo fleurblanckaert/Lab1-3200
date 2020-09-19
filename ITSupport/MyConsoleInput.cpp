@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <cmath>
 #include <limits> // numeric_limits
-#include <cfloat>  // for limits of a double DBL_MIN and DBL_MAXt
+#include <cfloat>  // for limits of a double DBL_MIN and DBL_MAX
 
 #include "MyConsoleInput.h"
 using namespace std;
