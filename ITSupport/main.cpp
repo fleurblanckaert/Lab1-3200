@@ -10,6 +10,7 @@
 #include <stdexcept>	// for invalid_argument
 #include <sstream> 		// stringstream
 #include "MyConsoleInput.h" // Provided by Tom Tsiliopoulous (For ConsoleInput::ReadInteger())
+#include <string>		// for getline
 
 using namespace std;
 
@@ -62,39 +63,52 @@ int main()
 	int ticketYear;
 	string issueDescription;
 
-	//Output Header
-	cout << "IT Support Tracking Application" << endl
-		<< "===============================" << endl << endl;
-	for (int i = 0; i < 3; i++)
-	{
-		//Prompts user to enter Work Ticket Number
-		cout << "The Ticket Number is: ";
-		ticketInput = ConsoleInput::ReadInteger(); 
-		ticket[i].SetTicketNumber(ticketInput);
 
-		//Prrompts user for client id number
-		cout << "The Client ID is: ";
-		cin >> clientInput;
-		ticket[i].SetClientID(clientInput);
 
-		//Prompts user for work ticket date
-		cout << "The Work Ticket Date is: ";
-		cin >> ticketDay >> ticketMonth >> ticketYear;
-		ticket[i].SetTicketDate(ticketDay, ticketMonth, ticketYear);
-
-		//Prompts user for issue description
-		cout << "The Issue Description is: ";
-		cin >> issueDescription;
-		ticket[i].SetIssueDescription(issueDescription);
-
-		cout << endl;
-	}
 	
-	cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
-	for (int i = 0; i < 3; i++)
-	{
-		cout << ticket[i].ShowWorkTicket() << endl;
-	}
+		//Output Header
+		cout << "IT Support Tracking Application" << endl
+			<< "===============================" << endl << endl;
+		for (int i = 0; i < 3; i++)
+		{
+			//Prompts user to enter Work Ticket Number
+			cout << "The Ticket Number is: ";
+			ticketInput = ConsoleInput::ReadInteger();
+			ticket[i].SetTicketNumber(ticketInput);
+
+			//Prompts user for client id number
+			cout << "The Client ID is: ";
+			getline(cin, clientInput);
+			ticket[i].SetClientID(clientInput);
+
+			//Prompts user for work ticket date
+			cout << "The Work Ticket Date is: \nDay: ";
+			ticketDay = ConsoleInput::DayValidation();
+			cout << "Month: ";
+			ticketMonth = ConsoleInput::MonthValidation();
+			cout << "Year: ";
+			ticketYear = ConsoleInput::YearValidation();
+			ticket[i].SetTicketDate(ticketDay, ticketMonth, ticketYear);
+
+			//Prompts user for issue description
+			cout << "The Issue Description is: ";
+			getline(cin, issueDescription);
+			ticket[i].SetIssueDescription(issueDescription);
+
+			cout << endl;
+		}
+
+		cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
+		for (int i = 0; i < 3; i++)
+		{
+			cout << ticket[i].ShowWorkTicket() << endl;
+		}
+	
+
+
+
+	return 0;
+
 }
 
 //Parameterized Constructor for WorkTicket Class
@@ -124,3 +138,4 @@ bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int ye
 {
 	return true;
 }
+

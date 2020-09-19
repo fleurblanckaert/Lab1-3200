@@ -29,5 +29,12 @@ public:
 	*/
 	static int ReadInteger(const int MIN = INT_MIN, const int MAX = INT_MAX);
 
+
+	static int DayValidation(const int MIN_DAY = 1, const int MAX_DAY = 31);
+
+	static int MonthValidation(const int MIN_MONTH = 1, const int MAX_MONTH = 12);
+
+	static int YearValidation(const int MIN_YEAR = 2000, const int MAX_YEAR = 2099);
+
 };
 #endif // end of ifndef MY_CONSOLE_INPUT_H
