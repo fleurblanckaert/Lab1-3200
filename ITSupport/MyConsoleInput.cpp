@@ -11,7 +11,7 @@ using namespace std;
 // ReadDouble function definition
 double ConsoleInput::ReadDouble(const double MIN, const double MAX)
 {
-
+	
 
 	double validNumber = 0.0; // holds the user input 
 
@@ -20,24 +20,26 @@ double ConsoleInput::ReadDouble(const double MIN, const double MAX)
 	// remove any remaining characters from the buffer.
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-
-	if (cin.fail())            // if user input fails...
-	{
-		cin.clear(); // Reset the fail() state of the cin object.
-		cin.sync();  // clear the buffer 
-		// report the problem to the user.
-		cerr << "* Invalid input. Please try again and enter a numeric value.\n";
-		// Try again by calling the function again (recursion)
-		validNumber = ReadDouble(MIN, MAX);
-	}
-	else if (validNumber < MIN || validNumber > MAX)// if value is outside range...
-	{
-		// report the problem to the user.
-		cerr << " * Invalid input. Please try again and enter a value between "
-			<< MIN << " and " << MAX << ".\n";
-		// Try again by call the function again (recursion)
-		validNumber = ReadDouble(MIN, MAX);
-	}
+	
+		if (cin.fail())            // if user input fails...
+		{
+			cin.clear(); // Reset the fail() state of the cin object.
+			cin.sync();  // clear the buffer 
+			// report the problem to the user.
+			cerr << "* Invalid input. Please try again and enter a numeric value.\n";
+			// Try again by calling the function again (recursion)
+			validNumber = ReadDouble(MIN, MAX);
+		}
+		else if (validNumber < MIN || validNumber > MAX)// if value is outside range...
+		{
+			// report the problem to the user.
+			cerr << " * Invalid input. Please try again and enter a value between "
+				<< MIN << " and " << MAX << ".\n";
+			// Try again by call the function again (recursion)
+			validNumber = ReadDouble(MIN, MAX);
+		}
+		
+	
 
 	return validNumber; // returns a valid value to the calling function.
 }

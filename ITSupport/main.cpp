@@ -5,6 +5,20 @@
                 a client request for support.
 */
 
+/*
+THINGS TO WORK ON:
+
+1) I included validation but not through "invalid_argument". On MyConsoleInput.h and .cpp you can see the things
+I added to perform the validation. You will see a try-catch on main where I tried to included invalid_argument, but
+that is not working. Left it there anyway because I feel like it will have to be something similar to that.
+
+2) Validation is still messing up when we type a letter on the values that are expecting numbers.
+
+*/
+
+
+
+
 #include <iostream>     // for cin and cout
 #include <iomanip> 		// for output formatting
 #include <stdexcept>	// for invalid_argument
@@ -64,8 +78,9 @@ int main()
 	string issueDescription;
 
 
+	try
+	{
 
-	
 		//Output Header
 		cout << "IT Support Tracking Application" << endl
 			<< "===============================" << endl << endl;
@@ -98,14 +113,18 @@ int main()
 			cout << endl;
 		}
 
+		//Displays output
 		cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
 		for (int i = 0; i < 3; i++)
 		{
 			cout << ticket[i].ShowWorkTicket() << endl;
 		}
-	
 
-
+	}
+	catch (invalid_argument& ia)
+	{
+		cerr << ia.what() << "Invalid argument" << endl;
+	}
 
 	return 0;
 
