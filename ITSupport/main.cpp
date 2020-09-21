@@ -72,6 +72,7 @@ int main()
 	int yearInput;
 	string descriptionInput;
 
+	//Default Values
 	cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
 	cout << ticket1.ShowWorkTicket() << endl;
 	
@@ -81,13 +82,12 @@ int main()
 		<< "===============================" << endl << endl;
 		for (int i = 0; i < 3; i++)
 		{
-			try
-			{
+			
 			//Prompts user to enter Work Ticket Number
-			cout << "The Ticket Number is "<< "(" << i+1 << ")" <<": " ;
+			cout << "The Ticket Number is " << "(" << i + 1 << ")" << ": ";
 			ticketInput = ConsoleInput::ReadInteger(1);
 			//cin >> ticketInput;
-
+			
 			//Prompts user for client id number
 			cout << "The Client ID is: ";
 			getline(cin, clientInput);
@@ -103,12 +103,6 @@ int main()
 			//Prompts user for issue description
 			cout << "The Issue Description is: ";
 			getline(cin, descriptionInput);
-			}
-			//Exception Handling, Error message appears when ticket number is less than 0
-			catch (const invalid_argument& ex)
-			{
-				cerr << "\nException occurred: " << ex.what() << endl << endl;
-			}
 			
 			//Sets user Input
 			ticket[i].SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, descriptionInput);
@@ -153,11 +147,19 @@ string WorkTicket::ShowWorkTicket() const
 //
 bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int year, string description)
 {
+	try
+	{
 	SetTicketNumber(number);
 	SetClientID(id);
 	SetTicketDate(day, month, year);
 	SetIssueDescription(description);
-
+	}
+	//Exception Handling, Error message appears when ticket number is less than 0
+	catch (const invalid_argument& ex)
+	{
+		cerr << "\nException occurred: " << ex.what() << endl << endl;
+		return false;
+	}
 	return true;
 }
 
