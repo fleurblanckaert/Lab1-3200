@@ -162,18 +162,9 @@ bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int ye
 		cerr << "\nException occurred: " << ex.what() << endl << endl;
 		return false;
 	}
-	return true;
-	SetClientID(id);
 
-	try {
-		SetTicketDate(day, month, year);
-	}
-	catch (const std::out_of_range& oor)
-	{
-		cerr << "Out of Range error: " << oor.what() << endl << endl;
-		return false;
-	}
-	
+	SetClientID(id);
+	SetTicketDate(day, month, year);
 	SetIssueDescription(description);
 	return true;
 
