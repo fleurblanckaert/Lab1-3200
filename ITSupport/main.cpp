@@ -5,26 +5,13 @@
                 a client request for support.
 */
 
-/*
-THINGS TO WORK ON:
-
-1) I included validation but not through "invalid_argument". On MyConsoleInput.h and .cpp you can see the things
-I added to perform the validation. You will see a try-catch on main where I tried to included invalid_argument, but
-that is not working. Left it there anyway because I feel like it will have to be something similar to that.
-
-2) Validation is still messing up when we type a letter on the values that are expecting numbers.
-
-*/
-
-
-
-
 #include <iostream>     // for cin and cout
 #include <iomanip> 		// for output formatting
 #include <stdexcept>	// for invalid_argument
 #include <sstream> 		// stringstream
-#include "MyConsoleInput.h" // Provided by Tom Tsiliopoulous (For ConsoleInput::ReadInteger())
 #include <string>		// for getline
+#include "MyConsoleInput.h" // Provided by Tom Tsiliopoulous (For ConsoleInput::ReadInteger())
+
 
 using namespace std;
 
@@ -48,12 +35,14 @@ public:
 	string ShowWorkTicket() const; //Accessor Method
 
 	// Mutators
-	void SetTicketNumber(int number) {ticketNumber = number;}
+	void SetTicketNumber(int number) {ticketNumber = Validate(number);}
 	void SetClientID(string id) {clientId = id;}
 	void SetTicketDate(int day, int month, int year) {ticketDay = day; ticketMonth = month;	ticketYear = year;}
 	void SetIssueDescription(string description) {issueDescription = description;} 
 
 	bool SetWorkTicket(int number, string id, int day, int month, int year, string description); // Mutator Method
+
+	
 
 //Members will only be accessible inside the class
 private:  
@@ -63,6 +52,9 @@ private:
 	int ticketMonth;
 	int ticketYear;   
 	string issueDescription;
+
+	int Validate(int toNumber) const; // Double representing the validated value
+
 };
 
 
@@ -70,15 +62,14 @@ int main()
 {
 	//Declarations
 	WorkTicket ticket[3];
-	int ticketInput = 0;
-	string clientInput = "";
-	int ticketDay;
-	int ticketMonth;
-	int ticketYear;
+	int ticketInput;
+	string clientInput;
+	int dayInput;
+	int monthInput;
+	int yearInput;
 	string issueDescription;
 
-
-	try
+try
 	{
 
 		//Output Header
@@ -88,30 +79,33 @@ int main()
 		{
 			//Prompts user to enter Work Ticket Number
 			cout << "The Ticket Number is: ";
-			ticketInput = ConsoleInput::ReadInteger();
-			ticket[i].SetTicketNumber(ticketInput);
+			ticketInput = ConsoleInput::ReadInteger(0);
 
 			//Prompts user for client id number
 			cout << "The Client ID is: ";
 			getline(cin, clientInput);
-			ticket[i].SetClientID(clientInput);
 
 			//Prompts user for work ticket date
 			cout << "The Work Ticket Date is: \nDay: ";
-			ticketDay = ConsoleInput::DayValidation();
+			dayInput = ConsoleInput::ReadInteger(1,31);
 			cout << "Month: ";
-			ticketMonth = ConsoleInput::MonthValidation();
+			monthInput = ConsoleInput::ReadInteger(1,12);
 			cout << "Year: ";
-			ticketYear = ConsoleInput::YearValidation();
-			ticket[i].SetTicketDate(ticketDay, ticketMonth, ticketYear);
+			yearInput = ConsoleInput::ReadInteger(2000,2099);
 
 			//Prompts user for issue description
 			cout << "The Issue Description is: ";
 			getline(cin, issueDescription);
-			ticket[i].SetIssueDescription(issueDescription);
+
+			ticket[i].SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, issueDescription);
 
 			cout << endl;
 		}
+	}
+	catch (invalid_argument& ia)
+	{
+		cerr << ia.what() << "Invalid argument" << endl;
+	}
 
 		//Displays output
 		cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
@@ -119,12 +113,6 @@ int main()
 		{
 			cout << ticket[i].ShowWorkTicket() << endl;
 		}
-
-	}
-	catch (invalid_argument& ia)
-	{
-		cerr << ia.what() << "Invalid argument" << endl;
-	}
 
 	return 0;
 
@@ -155,6 +143,21 @@ string WorkTicket::ShowWorkTicket() const
 //
 bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int year, string description)
 {
+	SetTicketNumber(number);
+	SetClientID(id);
+	SetTicketDate(day, month, year);
+	SetIssueDescription(description);
+
 	return true;
+}
+
+int WorkTicket::Validate(int toNumber) const
+{
+	const int LIMIT = 0;
+	
+	if (toNumber < LIMIT)
+		throw invalid_argument("Value must be a positive, whole number");
+	else
+		return toNumber;
 }
 
