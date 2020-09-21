@@ -85,24 +85,29 @@ int main()
 			
 			//Prompts user to enter Work Ticket Number
 			cout << "The Ticket Number is " << "(" << i + 1 << ")" << ": ";
-			ticketInput = ConsoleInput::ReadInteger(1);
-			//cin >> ticketInput;
+			//ticketInput = ConsoleInput::ReadInteger(1);
+			cin >> ticketInput;
 			
 			//Prompts user for client id number
 			cout << "The Client ID is: ";
-			getline(cin, clientInput);
+			//getline(cin, clientInput);
+			cin >>  clientInput;
 
 			//Prompts user for work ticket date
 			cout << "The Work Ticket Date is: \nDay: ";
-			dayInput = ConsoleInput::ReadInteger(1,31);
+			//dayInput = ConsoleInput::ReadInteger(1,31);
+			cin >> dayInput;
 			cout << "Month: ";
-			monthInput = ConsoleInput::ReadInteger(1,12);
+			//monthInput = ConsoleInput::ReadInteger(1,12);
+			cin >> monthInput;
 			cout << "Year: ";
-			yearInput = ConsoleInput::ReadInteger(2000,2099);
+			//yearInput = ConsoleInput::ReadInteger(2000,2099);
+			cin >> yearInput;
 
 			//Prompts user for issue description
 			cout << "The Issue Description is: ";
-			getline(cin, descriptionInput);
+			//getline(cin, descriptionInput);
+			cin >> descriptionInput;
 			
 			//Sets user Input
 			ticket[i].SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, descriptionInput);
@@ -149,10 +154,7 @@ bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int ye
 {
 	try
 	{
-	SetTicketNumber(number);
-	SetClientID(id);
-	SetTicketDate(day, month, year);
-	SetIssueDescription(description);
+		SetTicketNumber(number);
 	}
 	//Exception Handling, Error message appears when ticket number is less than 0
 	catch (const invalid_argument& ex)
@@ -161,6 +163,20 @@ bool WorkTicket::SetWorkTicket(int number, string id, int day, int month, int ye
 		return false;
 	}
 	return true;
+	SetClientID(id);
+
+	try {
+		SetTicketDate(day, month, year);
+	}
+	catch (const std::out_of_range& oor)
+	{
+		cerr << "Out of Range error: " << oor.what() << endl << endl;
+		return false;
+	}
+	
+	SetIssueDescription(description);
+	return true;
+
 }
 
 int WorkTicket::Validate(int toNumber) const
@@ -172,4 +188,6 @@ int WorkTicket::Validate(int toNumber) const
 	else
 		return toNumber;
 }
+
+
 
