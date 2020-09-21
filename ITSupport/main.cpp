@@ -1,8 +1,9 @@
-/* Name: Fleur Blackaert, Gabriel Dietrich
+/* Student Name: Fleur Blackaert, Gabriel Dietrich
+   Student ID: 100747083, 100764733
    Date: 19th September, 2020
    Program: Lab1_Classes - OOP 3200
    Description: This is an application that creates a class called WorkTicket, which represents a
-                a client request for support.
+                a client's request for support.
 */
 
 #include <iostream>     // for cin and cout
@@ -32,7 +33,8 @@ public:
 	int GetTicketDate() const { return ticketDay, ticketMonth, ticketYear; }
 	string GetIssueDescription() const { return issueDescription; }
 	
-	string ShowWorkTicket() const; //Accessor Method
+	//Accessor Method
+	string ShowWorkTicket() const; 
 
 	// Mutators
 	void SetTicketNumber(int number) {ticketNumber = Validate(number);}
@@ -40,9 +42,8 @@ public:
 	void SetTicketDate(int day, int month, int year) {ticketDay = day; ticketMonth = month;	ticketYear = year;}
 	void SetIssueDescription(string description) {issueDescription = description;} 
 
-	bool SetWorkTicket(int number, string id, int day, int month, int year, string description); // Mutator Method
-
-	
+	// Mutator Method
+	bool SetWorkTicket(int number, string id, int day, int month, int year, string description); 
 
 //Members will only be accessible inside the class
 private:  
@@ -53,6 +54,7 @@ private:
 	int ticketYear;   
 	string issueDescription;
 
+	//Validates ticket number
 	int Validate(int toNumber) const; // Double representing the validated value
 
 };
@@ -62,24 +64,29 @@ int main()
 {
 	//Declarations
 	WorkTicket ticket[3];
+	WorkTicket ticket1;
 	int ticketInput;
 	string clientInput;
 	int dayInput;
 	int monthInput;
 	int yearInput;
-	string issueDescription;
+	string descriptionInput;
 
-try
-	{
+	cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
+	cout << ticket1.ShowWorkTicket() << endl;
+	
 
 		//Output Header
-		cout << "IT Support Tracking Application" << endl
-			<< "===============================" << endl << endl;
+	cout << endl << "IT Support Tracking Application" << endl
+		<< "===============================" << endl << endl;
 		for (int i = 0; i < 3; i++)
 		{
+			try
+			{
 			//Prompts user to enter Work Ticket Number
-			cout << "The Ticket Number is: ";
-			ticketInput = ConsoleInput::ReadInteger(0);
+			cout << "The Ticket Number is "<< "(" << i+1 << ")" <<": " ;
+			ticketInput = ConsoleInput::ReadInteger(1);
+			//cin >> ticketInput;
 
 			//Prompts user for client id number
 			cout << "The Client ID is: ";
@@ -95,17 +102,20 @@ try
 
 			//Prompts user for issue description
 			cout << "The Issue Description is: ";
-			getline(cin, issueDescription);
-
-			ticket[i].SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, issueDescription);
+			getline(cin, descriptionInput);
+			}
+			//Exception Handling, Error message appears when ticket number is less than 0
+			catch (const invalid_argument& ex)
+			{
+				cerr << "\nException occurred: " << ex.what() << endl << endl;
+			}
+			
+			//Sets user Input
+			ticket[i].SetWorkTicket(ticketInput, clientInput, dayInput, monthInput, yearInput, descriptionInput);
 
 			cout << endl;
 		}
-	}
-	catch (invalid_argument& ia)
-	{
-		cerr << ia.what() << "Invalid argument" << endl;
-	}
+
 
 		//Displays output
 		cout << endl << "Ticket Number\t" << "Client ID\t" << "Work Ticket Date\t" << "Issue Description\t" << endl;
